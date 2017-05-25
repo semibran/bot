@@ -17,7 +17,7 @@ function reset() {
 }
 
 function log(value) {
-	channel.send(open + value + close)
+	channel.send(open + '\n' + value + close)
 }
 
 reset()
@@ -40,7 +40,7 @@ client.on('message', message => {
 			}
 
 			catch (error) {
-				log(`${error.name}: ${error.message}`)
+				log(error)
 			}
 
 			if (result != null) {
