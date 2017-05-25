@@ -5,7 +5,7 @@
 After cloning this repository and installing dependencies, run `node . YOUR_CLIENT_TOKEN` to start the bot.
 
 ## usage
-Once the bot is online, send a message with your code inside triple backticks flagged as JavaScript (````js`) to execute a script.
+Once the bot is online, send a message with your code inside triple backticks flagged as JavaScript (```js) to execute a script.
 
 The context exposes the methods `console.log`, `reset` (to reset the context to its initial state), and [`bench`](https://github.com/semibran/bench).
 
