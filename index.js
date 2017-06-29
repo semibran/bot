@@ -1,51 +1,64 @@
-const { runInNewContext: run } = require('vm')
-const { inspect } = require('util')
-const bench = require('bench')
+const run = require('vm').runInNewContext
 const Discord = require('discord.js')
+const request = require('http').request
+const inspect = require('util').inspect
+const options = { depth: 1, maxArrayLength: 10 }
 const client = new Discord.Client()
 const token = process.argv[2]
 const open = '```js'
 const close = '```'
 
-var options = { depth: 1, maxArrayLength: 10 }
-var initial = { bench, reset, console: { log } }
-var context = null
 var channel = null
-
-function reset() {
-	context = Object.assign({}, initial)
+var context = {
+  aids: require('./commands/aids'),
+  kern: require('./commands/kern'),
+  console: {
+    log: value => {
+      channel.send(`${open}\n${value}\n${close}`)
+    }
+  },
+  npm: name => {
+    request(`http://registry.npmjs.org/${name}`, response => {
+      var status = response.statusCode === 200 ? 'taken' : 'free'
+      context.console.log(`package '${name}' ${status}`)
+      channel.send(`https://www.npmjs.com/package/${name}`)
+    }).end()
+  }
 }
-
-function log(value) {
-	channel.send(open + '\n' + value + close)
-}
-
-reset()
 
 client.login(token)
-
 client.on('ready', _ => console.log(`logged in with token '${token}'`))
-
 client.on('message', message => {
-	if (message.author !== client.user) {
-		var string = message.content
-		if (string.startsWith(open) && string.endsWith(close)) {
-			var script = string.slice(open.length, string.length - close.length).trim()
-			var result = null
-
-			channel = message.channel
-
-			try {
-				result = run(script, context)
-			}
-
-			catch (error) {
-				log(error)
-			}
-
-			if (result != null) {
-				log(inspect(result, options))
-			}
-		}
-	}
+  channel = message.channel
+  if (message.author === client.user) return
+  if (channel.name !== 'repl') return
+  var script = message.content.trim()
+  var result = null
+  var failed = false
+  var time = process.hrtime()
+  try {
+    result = run(script, context)
+  }
+  catch (error) {
+    result = error
+    failed = true
+  }
+  finally {
+    var [seconds, nanoseconds] = process.hrtime(time)
+    if (!failed) {
+      result = inspect(result, options)
+    }
+    channel.send(`<@${message.author.id}>`)
+    channel.send(`
+**input**
+${open}
+${message.content}
+${close}
+**output**
+${open}
+${result}
+${close}
+**completed in ${seconds}s + ${nanoseconds}ns**`
+    )
+  }
 })

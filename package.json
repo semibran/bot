@@ -5,17 +5,16 @@
   "keywords": [
     "discord",
     "bot",
-		"repl"
+    "repl"
   ],
   "main": "index.js",
   "license": "MIT",
   "author": "Brandon Semilla (https://github.com/semibran)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/baggo/bot.git"
+    "url": "https://github.com/semibran/bot.git"
   },
   "dependencies": {
-    "bench": "github:semibran/bench#v0.1.0",
     "discord.js": "^11.1.0"
   }
 }
