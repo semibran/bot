@@ -48,8 +48,9 @@ client.on('message', message => {
     if (!failed) {
       result = inspect(result, options)
     }
-    channel.send(`<@${message.author.id}>`)
     channel.send(`
+<@${message.author.id}>
+
 **input**
 ${open}
 ${message.content}
