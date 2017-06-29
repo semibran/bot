@@ -1,9 +1,1 @@
-module.exports = function aids(text, offset) {
-  offset = offset ? 1 : 0
-  var result = ''
-  for (var i = text.length; i--;) {
-    var char = text[i]
-    result = (i % 2 === offset ? char.toLowerCase() : char.toUpperCase()) + result
-  }
-  return result
-}
+module.exports=function(v,o){for(var r='',i=v.length;i--;c=v[i],r=((o=!o)?c.toLowerCase():c.toUpperCase())+r);return r}
