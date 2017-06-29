@@ -2,14 +2,10 @@
   "name": "bot",
   "version": "0.1.0",
   "description": "REPL bot for Discord",
-  "keywords": [
-    "discord",
-    "bot",
-    "repl"
-  ],
-  "main": "index.js",
-  "license": "MIT",
+  "keywords": ["repl", "bot", "discord"],
+  "files": ["index.js", "commands"],
   "author": "Brandon Semilla (https://github.com/semibran)",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/semibran/bot.git"
