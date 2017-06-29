@@ -20,8 +20,12 @@ var context = {
   npm: name => {
     request(`http://registry.npmjs.org/${name}`, response => {
       var status = response.statusCode === 200 ? 'taken' : 'free'
-      context.console.log(`package '${name}' ${status}`)
-      channel.send(`https://www.npmjs.com/package/${name}`)
+      channel.send(
+`${open}
+package '${name}' ${status}
+${close}
+https://www.npmjs.com/package/${name}`
+      )
     }).end()
   }
 }
@@ -49,8 +53,8 @@ client.on('message', message => {
     if (!failed) {
       result = inspect(result, options)
     }
-    channel.send(`
-<@${message.author.id}>
+    channel.send(
+`<@${message.author.id}>
 
 **input**
 ${open}
