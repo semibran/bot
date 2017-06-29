@@ -45,6 +45,7 @@ client.on('message', message => {
   }
   finally {
     var [seconds, nanoseconds] = process.hrtime(time)
+    var time = seconds + '.' + '000000000'.slice(nanoseconds.toString().length) + nanoseconds
     if (!failed) {
       result = inspect(result, options)
     }
@@ -59,7 +60,7 @@ ${close}
 ${open}
 ${result}
 ${close}
-**completed in ${seconds}s + ${nanoseconds}ns**`
+**completed in \`${time}\` seconds**`
     )
   }
 })
